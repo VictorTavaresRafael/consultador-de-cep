@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
+import Api from "./services/Api";
 import { FaSearchLocation } from "react-icons/fa";
 import SearchButton from "./components/SearchButton";
 import CardResult from "./components/CardResult";
@@ -22,7 +23,6 @@ const App: React.FC = () => {
   const [cache, setCache] = useState<Record<string, CepData>>({});
   const [searchHistory, setSearchHistory] = useState<CepData[]>([]);
 
-  // Carregar endereços salvos do localStorage ao iniciar
   useEffect(() => {
     const storedAddresses = localStorage.getItem("savedAddresses");
     if (storedAddresses) {
@@ -30,7 +30,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Atualizar localStorage sempre que savedAddresses mudar
   useEffect(() => {
     localStorage.setItem("savedAddresses", JSON.stringify(savedAddresses));
   }, [savedAddresses]);
@@ -41,26 +40,19 @@ const App: React.FC = () => {
       return;
     }
 
-    // Uso de IA: Verificar se o CEP já está no cache
     if (cache[input]) {
       setData(cache[input]);
       setIsSaved(false);
       return;
     }
 
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${input}/json/`);
-      const result = await response.json();
-      if (result.erro) {
-        alert("CEP não encontrado");
-        return;
-      }
-
+    try {          
+      const response = await Api.get(`${input}/json`);
+      const result = response.data;
       setData(result);
       setInput("");
       setIsSaved(false);
 
-      // Adicionar ao cache
       setCache((prevCache) => ({
         ...prevCache,
         [input]: result,
@@ -90,7 +82,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-blue-100 p-4 font-sans">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-blue-100 p-4 ">
       <h1 className="text-blue-900 text-6xl md:text-8xl font-extrabold animate-fliptitle text-center mb-8">
         Consultador de CEP
       </h1>
