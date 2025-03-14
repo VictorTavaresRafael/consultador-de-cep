@@ -2,7 +2,7 @@
 
 Link do projeto em ambiente web: https://consultador-de-cep-nine.vercel.app/
 
-Este é um projeto para consultar informações de endereços a partir de um CEP (Código de Endereçamento Postal) utilizando uma API. Foi desenvolvido com o intuito de praticar o uso de TypeScript e Tailwind CSS no desafio proposto pela empresa [AG Sistemas](https://agsistemasonline.com.br/).
+Este é um projeto para consultar informações de endereços a partir de um CEP (Código de Endereçamento Postal) utilizando uma API. Foi desenvolvido com o intuito de praticar o uso de TypeScript e Tailwind CSS.
 
 ## Funcionalidades
 
